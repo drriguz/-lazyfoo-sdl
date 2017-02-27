@@ -81,5 +81,8 @@ void close()
 	SDL_DestroyWindow(window);
 	window = NULL;
 
+#ifdef USING_SDL_IMAGE
+	IMG_Quit();
+#endif
 	SDL_Quit();
 }

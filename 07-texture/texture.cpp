@@ -1,7 +1,6 @@
 #include <iostream>
-#include <SDL2/SDL.h>
 #include <string>
-
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 using namespace std;
@@ -10,12 +9,13 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 bool init();
-SDL_Surface* loadImage(const string& path);
+SDL_Texture* loadTexture(const string& path);
+bool loadImage(const string& path);
 void close();
 
 SDL_Window* window = NULL;
-SDL_Surface* screenSurface = NULL;
-SDL_Surface* imageSurface = NULL;
+SDL_Renderer* renderer = NULL;
+SDL_Texture* texture = NULL;
 
 int main(int argc, char* argv[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	string path = string(argv[1]);
-	if(!init() || (imageSurface = loadImage(path)) == NULL )
+	if(!init() || (texture = loadTexture(path)) == NULL )
 	{
 		cerr << "Failed to initialize!" << endl;
 		return 1;
@@ -42,35 +42,11 @@ int main(int argc, char* argv[])
 				cout << "Bye" << endl;
 				quit = true;
 			}
-			else if(e.key.type == SDL_KEYDOWN)
-			{
-				switch(e.key.keysym.sym)
-				{
-					case SDLK_UP:
-						cout << "^" << endl;
-						break;
-					case SDLK_DOWN:
-						cout << "|" << endl;
-						break;
-					case SDLK_LEFT:
-						cout << "<" << endl;
-						break;
-					case SDLK_RIGHT:
-						cout << ">" << endl;
-						break;
-					default:
-						break;
-				}
-			}
 		}
 
-		SDL_Rect stretchRect;
-		stretchRect.x = 0;
-		stretchRect.y = 0;
-		stretchRect.w = SCREEN_WIDTH;
-		stretchRect.h = SCREEN_HEIGHT;
-		SDL_BlitScaled(imageSurface, NULL, screenSurface, &stretchRect);
-		SDL_UpdateWindowSurface(window);
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		SDL_RenderPresent(renderer);
 	}
 	close();
 
@@ -95,33 +71,53 @@ bool init()
 		cerr << "Window could not be created!" << SDL_GetError() << endl;
 		return false;
 	}
-	screenSurface = SDL_GetWindowSurface(window);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if(renderer == NULL)
+	{
+		cerr << "Renderer could not be created!" << SDL_GetError() << endl;
+		return false;
+	}
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	if((IMG_Init(imgFlags) & imgFlags) != imgFlags)
+	{
+		cerr << "SDL image could not be initialized!" << IMG_GetError() << endl;
+		return false;
+	}
 	return true;
 }
 
-SDL_Surface* loadImage(const string& path)
+SDL_Texture* loadTexture(const string& path)
 {
-	SDL_Surface* optimizedSurface = NULL;
+	SDL_Texture* newTexture = NULL;
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if(loadedSurface == NULL)
 	{
 		cerr << "Image could not be loaded!" << SDL_GetError() << endl;
 		return NULL;
 	}
-	optimizedSurface = SDL_ConvertSurface(loadedSurface, screenSurface->format, NULL);
-	if(optimizedSurface == NULL)
+	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+	if(newTexture == NULL)
 	{
 		cerr << "Unable to optimize image!" << SDL_GetError();
 	}
 	SDL_FreeSurface(loadedSurface);
-	return optimizedSurface;
+	return newTexture;
+}
+
+bool loadImage()
+{
+	texture = loadTexture("world.jpg");
+	return texture != NULL;
 }
 
 void close()
 {
-	SDL_FreeSurface(imageSurface);
-	imageSurface = NULL;
 
+	SDL_DestroyTexture(texture);
+	texture = NULL;
+	SDL_DestroyRenderer(renderer);
+	renderer = NULL;
 	SDL_DestroyWindow(window);
 	window = NULL;
 
