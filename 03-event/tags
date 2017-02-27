@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = g++$/;"	m
+COMPILER_FLAGS	Makefile	/^COMPILER_FLAGS = -w$/;"	m
+LINKER_FLAGS	Makefile	/^LINKER_FLAGS = -lSDL2 -lSDL2_image$/;"	m
+OBJS	Makefile	/^OBJS = image.cpp$/;"	m
+OBJ_NAME	Makefile	/^OBJ_NAME = hello.exe$/;"	m
+SCREEN_HEIGHT	event.cpp	/^const int SCREEN_HEIGHT = 480;$/;"	v
+SCREEN_WIDTH	event.cpp	/^const int SCREEN_WIDTH = 640;$/;"	v
+USING_SDL_IMAGE	event.cpp	4;"	d	file:
+close	event.cpp	/^void close()$/;"	f
+imageSurface	event.cpp	/^SDL_Surface* imageSurface = NULL;$/;"	v
+init	event.cpp	/^bool init()$/;"	f
+loadImage	event.cpp	/^bool loadImage()$/;"	f
+main	event.cpp	/^int main(int argc, char* argv[])$/;"	f
+screenSurface	event.cpp	/^SDL_Surface* screenSurface = NULL;$/;"	v
+window	event.cpp	/^SDL_Window* window = NULL;$/;"	v
