@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = g++$/;"	m
+COMPILER_FLAGS	Makefile	/^COMPILER_FLAGS = -w$/;"	m
+LINKER_FLAGS	Makefile	/^LINKER_FLAGS = -lSDL2 -lSDL2_image$/;"	m
+OBJS	Makefile	/^OBJS = *.cpp$/;"	m
+OBJ_NAME	Makefile	/^OBJ_NAME = hello.exe$/;"	m
+SCREEN_HEIGHT	viewport.cpp	/^const int SCREEN_HEIGHT = 480;$/;"	v
+SCREEN_WIDTH	viewport.cpp	/^const int SCREEN_WIDTH = 640;$/;"	v
+close	viewport.cpp	/^void close()$/;"	f	signature:()
+close	viewport.cpp	/^void close();$/;"	p	file:	signature:()
+draw	viewport.cpp	/^void draw()$/;"	f	signature:()
+draw	viewport.cpp	/^void draw();$/;"	p	file:	signature:()
+init	viewport.cpp	/^bool init()$/;"	f	signature:()
+init	viewport.cpp	/^bool init();$/;"	p	file:	signature:()
+loadImage	viewport.cpp	/^bool loadImage()$/;"	f	signature:()
+loadImage	viewport.cpp	/^bool loadImage(const string& path);$/;"	p	file:	signature:(const string& path)
+loadTexture	viewport.cpp	/^SDL_Texture* loadTexture(const string& path)$/;"	f	signature:(const string& path)
+loadTexture	viewport.cpp	/^SDL_Texture* loadTexture(const string& path);$/;"	p	file:	signature:(const string& path)
+main	viewport.cpp	/^int main(int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+renderer	viewport.cpp	/^SDL_Renderer* renderer = NULL;$/;"	v
+texture	viewport.cpp	/^SDL_Texture* texture = NULL;$/;"	v
+window	viewport.cpp	/^SDL_Window* window = NULL;$/;"	v
+x	viewport.cpp	/^int x = 0;$/;"	v
+y	viewport.cpp	/^int y = 0;$/;"	v
