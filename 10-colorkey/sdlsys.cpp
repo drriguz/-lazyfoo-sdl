@@ -1,11 +1,12 @@
 #include "sdlsys.h"
+#include "texture.h"
 #include <iostream>
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 SdlSystem::SdlSystem(const std::string& name, int width, int height)
-	:_window(NULL), _renderer(NULL), _name(name),_width(width), _height(height)
+	:_window(NULL), _renderer(NULL), _name(name),_width(width), _height(height), _background(NULL), _foo(NULL)
 {
 }
 
@@ -50,6 +51,9 @@ bool SdlSystem::init()
 		std::cerr << "SDL image could not be initialized!" << IMG_GetError() << std::endl;
 		return false;
 	}
+
+	_background = new Texture(_renderer);
+	_foo = new Texture(_renderer);
 	return true;
 }
 
@@ -65,8 +69,30 @@ void SdlSystem::deinit()
 		SDL_DestroyWindow(_window);
 		_window = NULL;
 	}
+
+	if(_background != NULL)
+	{
+		delete _background;
+		_background = NULL;
+	}
+	if(_foo != NULL)
+	{
+		delete _foo;
+		_foo = NULL;
+	}
 	IMG_Quit();
 	SDL_Quit();
+}
+
+bool SdlSystem::loadMedia()
+{
+	if(!_background->loadFromFile("background.png")
+		|| !_foo->loadFromFile("foo.png"))
+	{
+		std::cerr <<" Failed to load resources" << std::endl;
+		return false;
+	}
+	return true;
 }
 
 void SdlSystem::run()
@@ -83,6 +109,8 @@ void SdlSystem::run()
 			}
 			SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			SDL_RenderClear(_renderer);
+			this->_background->render(0, 0);
+			this->_foo->render(240, 190);
 			SDL_RenderPresent(_renderer);
 		}
 		SDL_Delay(20);

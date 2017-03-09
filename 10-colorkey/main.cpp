@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
 	SdlSystem system("ColorKey", 640, 480);	
-	if(!system.init())
+	if(!system.init() || !system.loadMedia())
 	{
 		std::cerr << "Init failed!" << std::endl;
 		return 1;

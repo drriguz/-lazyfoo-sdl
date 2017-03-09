@@ -6,6 +6,8 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
+class Texture;
+
 class SdlSystem
 {
 	public:
@@ -14,6 +16,7 @@ class SdlSystem
 	public:
 		bool init();
 		void deinit();
+		bool loadMedia();
 		void run();
 		SDL_Renderer* getRenderer(){ return this->_renderer; }
 		SDL_Window* getWindow(){ return this->_window; }
@@ -25,6 +28,9 @@ class SdlSystem
 		int _height;
 		SDL_Window* _window;
 		SDL_Renderer* _renderer;
+
+		Texture* _background;
+		Texture* _foo;
 };
 
 #endif
