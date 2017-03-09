@@ -24,7 +24,7 @@ bool Texture::loadFromFile(const std::string& path)
 		std::cerr << "Failed to load image " << path.c_str() << ":" << IMG_GetError() << std::endl;
 		return false;
 	}
-	//TODO: set color key
+	SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 	newTexture = SDL_CreateTextureFromSurface(_renderer, loadedSurface);
 	if(newTexture == NULL)
 	{
