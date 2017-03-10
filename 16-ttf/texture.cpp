@@ -39,12 +39,37 @@ bool Texture::loadFromFile(const std::string& path)
 	if(newTexture == NULL)
 	{
 		std::cerr << "Failed to create texture:" << SDL_GetError() << std::endl;
+		SDL_FreeSurface(loadedSurface);
 		return false;
 	}
 	_width = loadedSurface->w;
 	_height = loadedSurface->h;
 	SDL_FreeSurface(loadedSurface);
 	_texture = newTexture;
+	return true;
+}
+
+bool Texture::loadFromText(const std::string& text, TTF_Font* font, SDL_Color color)
+{
+	this->free();
+	SDL_Texture* newTexture = NULL;
+	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(font, text.c_str(), color);
+	if(textSurface == NULL)
+	{
+		std::cerr << "Could not create text surface!" << TTF_GetError() << std::endl;
+		return false;
+	}
+	newTexture = SDL_CreateTextureFromSurface(this->_renderer, textSurface);
+	if(newTexture == NULL)
+	{
+		std::cerr << "Could not create texture from surface:" << SDL_GetError() << std::endl;
+		SDL_FreeSurface(textSurface);
+		return false;
+	}
+	this->_width = textSurface->w;
+	this->_height = textSurface->h;
+	SDL_FreeSurface(textSurface);
+	this->_texture = newTexture;
 	return true;
 }
 

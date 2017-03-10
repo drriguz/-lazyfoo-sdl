@@ -4,6 +4,7 @@
 #include <string>
 #include <inttypes.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 class Texture
 {
@@ -14,6 +15,7 @@ class Texture
 	public:
 		void setRenderer(SDL_Renderer* renderer);
 		bool loadFromFile(const std::string& path);
+		bool loadFromText(const std::string& text, TTF_Font* font,  SDL_Color color);
 		void free();
 		void setColor(uint8_t r, uint8_t g, uint8_t b);
 		void setBlendMode(SDL_BlendMode blending);

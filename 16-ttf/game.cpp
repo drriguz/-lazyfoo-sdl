@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 
 Game::Game(const std::string& name, int width, int height)
-	:_window(NULL), _renderer(NULL), _name(name),_width(width), _height(height), _background(NULL), _foo(NULL)
+	:_window(NULL), _renderer(NULL), _name(name),_width(width), _height(height), _background(NULL), _foo(NULL), _font(NULL)
 {
 }
 
@@ -57,8 +57,15 @@ bool Game::init()
 		return false;
 	}
 
+	if(TTF_Init() == -1)
+	{
+		std::cerr << "SDL ttf could not be initlalized!" << TTF_GetError() << std::endl;
+		return false;
+	}
+
 	this->_background.setRenderer(this->_renderer);
 	this->_foo.setRenderer(this->_renderer);
+	this->_text.setRenderer(this->_renderer);
 	return true;
 }
 
@@ -75,14 +82,19 @@ void Game::deinit()
 		_window = NULL;
 	}
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
 
 bool Game::loadMedia()
 {
-	if(!_background.loadFromFile("background.png")
-			|| !_foo.loadFromFile("bear.png"))
+	SDL_Color color = {0, 0, 0};
+	this->_font = TTF_OpenFont("yt.ttf", 28);
+	if(this->_font == NULL
+			||!_background.loadFromFile("background.png")
+			||!_foo.loadFromFile("bear.png")
+			||!_text.loadFromText("Hello TTF!你好，官人", this->_font, color))
 	{
 		std::cerr <<" Failed to load resources" << std::endl;
 		return false;
@@ -172,6 +184,7 @@ void Game::run()
 		SDL_Rect* currentClip = &this->clips[frame / 4];
 		this->_foo.render(x, y, currentClip, angle, NULL, flipType);
 
+		this->_text.render(200, 50);
 		SDL_RenderPresent(_renderer);
 		++frame;
 		if(frame / 4 >= 4)

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "texture.h"
 
@@ -27,8 +28,10 @@ class Game
 		SDL_Window* _window;
 		SDL_Renderer* _renderer;
 
+		TTF_Font* _font;
 		Texture _background;
 		Texture _foo;
+		Texture _text;
 		SDL_Rect* clips;
 };
 
