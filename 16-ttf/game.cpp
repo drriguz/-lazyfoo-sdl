@@ -82,6 +82,11 @@ void Game::deinit()
 		_window = NULL;
 	}
 
+	if(this->_font != NULL)
+	{
+		TTF_CloseFont(this->_font);
+		this-_font = NULL;
+	}
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
