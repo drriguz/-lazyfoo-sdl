@@ -92,7 +92,7 @@ void SdlSystem::deinit()
 bool SdlSystem::loadMedia()
 {
 	if(!_background->loadFromFile("background.png")
-			|| !_foo->loadFromFile("walk.png"))
+			|| !_foo->loadFromFile("bear.png"))
 	{
 		std::cerr <<" Failed to load resources" << std::endl;
 		return false;
@@ -104,10 +104,10 @@ bool SdlSystem::loadMedia()
 		this->clips = NULL;
 	}
 	this->clips = new SDL_Rect[4];
-	clips[0] = {0, 0, 64, 205};
-	clips[1] = {64, 0, 64, 205};
-	clips[2] = {128, 0, 64, 205};
-	clips[3] = {196, 0, 64, 205};
+	clips[0] = {0, 0, 85, 128};
+	clips[1] = {85, 0, 85, 128};
+	clips[2] = {170, 0, 85, 128};
+	clips[3] = {255, 0, 85, 128};
 	return true;
 }
 
@@ -117,6 +117,7 @@ void SdlSystem::run()
 	uint8_t r = 255, g = 255, b = 255;
 	uint8_t alpha = 255;
 	int frame = 0;
+	int x = 100, y = 100;
 	SDL_Event e;
 	while(!quit)
 	{
@@ -155,6 +156,12 @@ void SdlSystem::run()
 					case SDLK_f:
 						alpha -= step;
 						break;
+					case SDLK_LEFT:
+						x -= 2;
+						break;
+					case SDLK_RIGHT:
+						x += 2;
+						break;
 					default:
 						break;
 				}
@@ -167,7 +174,7 @@ void SdlSystem::run()
 		this->_background->setAlpha(alpha);
 
 		SDL_Rect* currentClip = &this->clips[frame / 4];
-		this->_foo->render(200, 200, currentClip);
+		this->_foo->render(x, y, currentClip);
 
 		SDL_RenderPresent(_renderer);
 		++frame;
